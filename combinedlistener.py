@@ -330,11 +330,15 @@ def predict_dfdc(dataset, model):
 
 import os.path
 
-print("----Listening----")
-while not os.path.exists('input/combined/test1.mp4'):
-    time.sleep(1)
+while True:
+    print("----Listening----")
+    while True:
+        demo_videos = sorted([x for x in os.listdir("input/combined") if x[-4:] == ".mp4"])
+        if (len(demo_videos) > 0):
+            break
+        else:
+            time.sleep(1)
 
-if os.path.isfile('input/combined/test1.mp4'):
     demo_videos = sorted([x for x in os.listdir("input/combined") if x[-4:] == ".mp4"])
     # inf-model
     predict_demo = predict_on_demo_set(demo_videos, num_workers=4)
@@ -368,7 +372,6 @@ if os.path.isfile('input/combined/test1.mp4'):
 
     res.sort_values(by='filename', ascending=True, inplace=True)
     res.to_csv('output/submission-eff.csv', index=False)
-    
-    
-else:
-    raise ValueError("%s isn't a file!" % file_path)
+
+    for files in os.listdir("input/combined"):
+        os.remove(os.path.join("input/combined", files))
