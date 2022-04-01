@@ -142,17 +142,6 @@ def predict_on_video(video_path, batch_size):
 
 from concurrent.futures import ThreadPoolExecutor
 
-def predict_on_video_set(videos, num_workers):
-    def process_file(i):
-        filename = videos[i]
-        y_pred = predict_on_video(os.path.join(test_dir, filename), batch_size=frames_per_video)
-        return y_pred
-
-    with ThreadPoolExecutor(max_workers=num_workers) as ex:
-        predictions = ex.map(process_file, range(len(videos)))
-
-    return list(predictions)
-
 speed_test = True  # you have to enable this manually
     
 def predict_on_demo_set(videos, num_workers):
@@ -340,6 +329,7 @@ while True:
             time.sleep(1)
 
     demo_videos = sorted([x for x in os.listdir("input/combined") if x[-4:] == ".mp4"])
+    time.sleep(5)
     # inf-model
     predict_demo = predict_on_demo_set(demo_videos, num_workers=4)
     submission_df = pd.DataFrame({"filename": demo_videos, "label": predict_demo})
