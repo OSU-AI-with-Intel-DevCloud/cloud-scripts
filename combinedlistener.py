@@ -327,13 +327,13 @@ while True:
             break
         else:
             time.sleep(1)
-
+    
     demo_videos = sorted([x for x in os.listdir("input/combined") if x[-4:] == ".mp4"])
     time.sleep(5)
     # inf-model
     predict_demo = predict_on_demo_set(demo_videos, num_workers=4)
-    submission_df = pd.DataFrame({"filename": demo_videos, "label": predict_demo})
-    submission_df.to_csv("output/submission-inf.csv", index=False)
+    #submission_df = pd.DataFrame({"filename": demo_videos, "label": predict_demo})
+    #submission_df.to_csv("output/submission-inf.csv", index=False)
     # eff-model
     # Config
     img_size = 120
@@ -354,14 +354,24 @@ while True:
 
     path_list, pred_list = predict_dfdc(dataset, model2)
 
+    
+    #res = pd.DataFrame({
+    #    'filename': path_list + demo_videos,
+    #    'label': pred_list + predict_demo,
+    #})
+
+    #res.sort_values(by='filename', ascending=True, inplace=True)
+    #res.to_csv('output/submission-eff.csv', index=False)
+    
     # Submission
     res = pd.DataFrame({
-        'filename': path_list,
-        'label': pred_list,
+        'filename': path_list + demo_videos,
+        'label': pred_list + predict_demo,
+        'inference': ["Efficientnet Single Model", "ResNeXt50 Classifier"]
     })
 
     res.sort_values(by='filename', ascending=True, inplace=True)
-    res.to_csv('output/submission-eff.csv', index=False)
+    res.to_csv('output/submission.csv', index=False)
 
     for files in os.listdir("input/combined"):
         os.remove(os.path.join("input/combined", files))

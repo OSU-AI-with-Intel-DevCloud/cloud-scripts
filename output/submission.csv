@@ -1,0 +1,3 @@
+filename,label,inference
+metahuman.mp4,0.5971554517745972,Efficientnet Single Model
+metahuman.mp4,0.21238477528095245,ResNeXt50 Classifier

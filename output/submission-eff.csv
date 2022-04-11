@@ -1,2 +1,3 @@
-filename,label
-animated-characters.mp4,0.04659133963286877
+filename,label,inference
+bahdpoesir.mp4,0.7862718779593706,Efficientnet Single Model
+bahdpoesir.mp4,0.9120234847068787,ResNeXt50 Classifier
