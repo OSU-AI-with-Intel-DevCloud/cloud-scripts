@@ -133,7 +133,7 @@ def predict_on_video(video_path, batch_size):
                 with torch.no_grad():
                     y_pred = model(x)
                     y_pred = torch.sigmoid(y_pred.squeeze())
-                    return y_pred[:n].mean().item()
+                    return round(y_pred[:n].mean().item(), 3)
 
     except Exception as e:
         print("Prediction error on video %s: %s" % (video_path, str(e)))
@@ -307,31 +307,36 @@ def predict_dfdc(dataset, model):
                 output = model(img.unsqueeze(0).to(device))
                 pred += torch.sigmoid(output).item() / len(imgs)
                 
-            pred_list.append(pred)
+            pred_list.append(round(pred, 3))
             path_list.append(mov_path)
             
     torch.cuda.empty_cache()
             
     return path_list, pred_list
 
-
 # --------------------------------
 
 import os.path
 
+for files in os.listdir("input/combined"):
+    os.remove(os.path.join("input/combined", files))
+
 while True:
     print("----Listening----")
+        
     while True:
         demo_videos = sorted([x for x in os.listdir("input/combined") if x[-4:] == ".mp4"])
         if (len(demo_videos) > 0):
             break
         else:
-            time.sleep(1)
-    
+            time.sleep(0.5)
+            
     demo_videos = sorted([x for x in os.listdir("input/combined") if x[-4:] == ".mp4"])
-    time.sleep(5)
+    time.sleep(6)
     # inf-model
+    inf_start = time.time()
     predict_demo = predict_on_demo_set(demo_videos, num_workers=4)
+    inf_end = time.time()
     #submission_df = pd.DataFrame({"filename": demo_videos, "label": predict_demo})
     #submission_df.to_csv("output/submission-inf.csv", index=False)
     # eff-model
@@ -352,8 +357,9 @@ while True:
     dataset = DeepfakeDataset(test_file, device, detector, transform, img_num, frame_window)
     print(test_file, demo_videos)
 
+    eff_start = time.time()
     path_list, pred_list = predict_dfdc(dataset, model2)
-
+    eff_end = time.time()
     
     #res = pd.DataFrame({
     #    'filename': path_list + demo_videos,
@@ -367,7 +373,8 @@ while True:
     res = pd.DataFrame({
         'filename': path_list + demo_videos,
         'label': pred_list + predict_demo,
-        'inference': ["Efficientnet Single Model", "ResNeXt50 Classifier"]
+        'inference': ["Efficientnet Single Model", "ResNeXt50 Classifier"],
+        'time': [round((eff_end-eff_start), 3), round((inf_end-inf_start), 3)]
     })
 
     res.sort_values(by='filename', ascending=True, inplace=True)
