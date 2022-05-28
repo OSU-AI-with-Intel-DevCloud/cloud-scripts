@@ -21,6 +21,6 @@ match this timing with some space in the backend which has to wait for results t
 ## Further Improvement
 This area of the project has massive room for growth. By using Intel DevCloud and Jupyter Notebooks
 a user can quickly explore a variety of shared Deepfake Detection [solutions](https://www.kaggle.com/competitions/deepfake-detection-challenge/discussion?sort=votes)
-and [code](https://www.kaggle.com/competitions/deepfake-detection-challenge/code?competitionId=16880&sortBy=scoreAscending) from the Kaggle Deepfake Detection Challenge in depth.
+and [code](https://www.kaggle.com/competitions/deepfake-detection-challenge/code?competitionId=16880&sortBy=scoreAscending) from the Kaggle Deepfake Detection Challenge in depth (Make sure to signup for an account first).
 Our project mainly looked through two of the shared algorithms and tested how well they performed through Intel DevCloud in order to learn and explore.
 However, I suggest future teams interested in this project to go beyond and model and train their own algorithms using insights from Kaggle's vast open source resources.
