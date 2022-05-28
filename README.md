@@ -8,8 +8,9 @@ Everything here is done on Intel DevCloud so there are no hardware requirements.
 2. Connect to Intel DevCloud either through JupyterLabs or through ssh.
 3. Create a new directory labeled `deepfake` and `cd ./deepfake`.
 4. In this directory `git clone https://github.com/OSU-AI-with-Intel-DevCloud/cloud-scripts`.
-5. Switch folders to /input and `mkdir combined`. Move back to /deepfake.
-6. Install the necessary software to run the python script: torch, torchvision, opencv, matlib and more depending on your machine.
+5. Switch folders to /input and `mkdir combined`. In addition, you will need to install the pretrained models for the [Blazeface algorithm](https://www.kaggle.com/datasets/humananalog/deepfakes-inference-demo) and the [Efficientnet algorithm](https://www.kaggle.com/datasets/bootiu/deepfake-detection-model-weight). In order to download these models into the /input folder, a kaggle account is required. Note that these pretrained models use the following models which are
+already installed in the /input folder: [Blazeface-PyTorch](https://github.com/hollance/BlazeFace-PyTorch) and [EfficientNet PyTorch](https://github.com/lukemelas/EfficientNet-PyTorch).
+6. Move back to /deepfake. Install the necessary software to run the python script: torch, torchvision, opencv, matlib and more depending on your machine.
 (There will be an indication of the necesary software to install when running the script)
 7. Run `python combinedlistener.py`.
 This script will continously wait for a file to be transferred into /input/combined. Once it detects a file here it will perform inference on the video file to test
@@ -24,3 +25,6 @@ a user can quickly explore a variety of shared Deepfake Detection [solutions](ht
 and [code](https://www.kaggle.com/competitions/deepfake-detection-challenge/code?competitionId=16880&sortBy=scoreAscending) from the Kaggle Deepfake Detection Challenge in depth (Make sure to signup for an account first).
 Our project mainly looked through two of the shared algorithms and tested how well they performed through Intel DevCloud in order to learn and explore.
 However, I suggest future teams interested in this project to go beyond and model and train their own algorithms using insights from Kaggle's vast open source resources.
+
+## Credits
+The inference algorithms used in the combinedlistener script can be sourced to Kaggle users YANIS CHAMPLIN and HUMAN ANALOG. Their notebooks are liscensed as open source and were powerful tools in allowing our group to explore Deepfake Detection.
